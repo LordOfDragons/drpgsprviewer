@@ -1,0 +1,46 @@
+
+struct sTileHeader{
+   char signature[ 10 ]; // "DCTILE0.03"
+   int unknown1; // 640
+   int unknown2; // 640
+   int count; // 200
+   sTileRecord1 records1[ count ];
+   sTileRecord2 records2[ count ];
+   sTileRecord3 records3[ count ];
+   short data[ ? ];
+      // ATTENTION! in contrast to the sprite file
+      // the tile file has no total count of data
+      // records. we have though to read until the
+      // end of the file. a major drawback for a
+      // properly written application.
+   char unknown[ 200 ];
+      // there are 200 bytes following right to the
+      // end of the file which are filled with either
+      // 1 or 0. maybe a kind of transparency although
+      // this is rather stupid with variable size tiles.
+};
+
+struct sTileRecord1{
+   int width; // 64
+};
+
+struct sTileRecord2{
+   int height; // 32
+};
+
+struct sTileRecord3{
+   int offset; // offset to data
+};
+
+// data record:
+- short countLines; // equals height of this tile. it
+                    // looks like there exists a special
+                    // case where this count is 0.
+- short countBlocks;
++ BLOCK [ countBlocks ]
+  - short gap; // number of empty pixels to skip
+  - short length; // number of pixels to write
+  + PIXELS 565 [ length ]
+
+
+rest-bytes: 200, 200, 200

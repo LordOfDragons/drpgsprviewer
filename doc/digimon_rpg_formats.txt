@@ -1,0 +1,197 @@
+Format Digimon RPG *.ani
+------------------------
+
+struct sHeader{
+   char identifier[ 14 ]; // "DCANIMATION0.5"
+   char spriteFile[ 20 ]; // name of sprite file
+   int flags; // 0 or 1
+   int recordCount; // number of records to follow
+   sRecord records[ recordCount ]; // array of records
+   char dummy[ 48 ]; // '\0'
+   sRecord2 records2[ ? ]; // array of records2
+};
+
+struct sRecord{
+   integer unknown1; // 1, 2 or 3
+   integer unknown2; // 160
+   integer unknown3; // 152 or 162
+};
+
+struct sRecord2{
+   short startPosition;
+   short endPosition;
+   short length;
+   // length > 0
+   // endPosition = startPosition + length - 1
+   // startPosition[ i ] = startPostion[ i - 1 ] + length[ i - 1 ]
+};
+
+
+===========================
+010_1.ani:
+   recordCount: 472
+   all records are:
+      unknown1: 1,2,3
+      unknown2: 160
+      unknown3: 152
+   records2 at least 69 most probably more
+   first records are 8 length the following ones 12
+   last value = 460 ( + 12 ) => 472
+
+tamer_05.ani:
+   recordCount: 384
+   all records are:
+      unknown1: 1 - 5
+      unknown2: 160
+      unknown3: 162
+   records2: last value = 372 ( + 12 ) => 384
+
+=============================================================
+=============================================================
+Format Digimon RPG *.spr
+
+struct sHeader{
+   char identifier[ 11 ]; // "DCSPRITE10\0" or "DCSPRITE0.5"
+   int countFrames; // matches records2 position values
+   sRecord1 records1[ countFrames ];
+   sRecord2 records2[ countFrames ];
+   unsigned int dataSize;
+      // large number, most probably the size
+      // of the image data or alike
+   sRecord3 records3[ countFrames ];
+   int unknown; // 240
+};
+
+struct sRecord1{
+   int unknown; // 320
+};
+
+struct sRecord2{
+   int unknown; // 240
+};
+
+struct sRecord3{
+   int dataOffset;
+      // offset to image data. the offset is measured
+      // as an index into an array of short values.
+      // hence the data is stored in memory as a serious
+      // of shorts with this offset pointing to the
+      // first value of the image
+};
+
+
+
+1903, 3791, 3795, 5683,
+5917, 7811, 8219, 8225, 10063
+
+
+size = 696023
+offsets: 0, 1151, 2277, 3434, 4694, 6029, 7368, 8687, ... , 694513
+
+
+================================================================
+draw_balloon.spr:
+DCSPRITE0.5
+5 frames
+8,8,8,8,8
+7,7,7,7,7
+351
+0,71,141,211,281
+s(7)
+
+s(1), s(0), s(7), s(136)[7]
+s(1), s(0), s(7), s(136)[7]
+s(1), s(0), s(7), s(136)[7]
+s(1), s(0), s(7), s(136)[7]
+s(1), s(0), s(7), s(136)[7]
+s(1), s(0), s(7), s(136)[7]
+s(1), s(0), s(7), s(136)[7]
+s(7), s(1), s(1), s(6), s(136)[6]
+s(1), s(0), s(7), s(136)[7]
+s(1), s(0), s(7), s(136)[7]
+s(1), s(0), s(7), s(136)[7]
+s(1), s(0), s(7), s(136)[7]
+s(1), s(0), s(7), s(136)[7]
+s(1), s(0), s(7), s(136)[7]
+s(7), s(1), s(0), s(6), s(136)[6]
+s(1), s(0), s(7), s(136)[7]
+s(1), s(0), s(7), s(136)[7]
+s(1), s(0), s(7), s(136)[7]
+s(1), s(0), s(7), s(136)[7]
+s(1), s(0), s(7), s(136)[7]
+s(1), s(0), s(7), s(136)[7]
+s(7), s(1), s(0), s(7), s(136)[7]
+s(1), s(0), s(7), s(136)[7]
+s(1), s(0), s(7), s(136)[7]
+s(1), s(0), s(7), s(136)[7]
+s(1), s(0), s(7), s(136)[7]
+s(1), s(0), s(7), s(136)[7]
+s(1), s(0), s(7), s(136)[7]
+s(1), s(1), s(6), s(136)[7]
+s(7), s(1), s(0), s(7)
+
+image data of first sprite in short values:
+7,
+1,0,7,136[7],1,0,7,136[7],1,0,7,136[7],1,0,7,136[7],
+1,0,7,136[7],1,0,7,136[7],1,0,7,136[7]
+
+136 => 10001000 00000000
+
+==================================================
+Analysis of w_box2.spr:
+"DCSPRITE10\0"
+i(9)
+i(4)[9]
+i(4)[9]
+i(205)
+i:0,28,51,79,104,109,134,161,178
+
+s:4
+s:1,0,4,14825[4]
+s:1,0,4,12777,57052,57053,57052
+s:1,0,4,14825,57053,25390,25390
+s:1,0,3,12777,57052,25390
+
+s:4
+...
+am schluss i(0)[2] padding oder so etwas
+
+14825 => 11101001 00111001
+12777 => 11101001 00110001
+57052 => 11011100 11011110
+57053 => 11011101 11011110
+25390 => 00101110 01100011
+
+
+========================================
+cursor_normal.spr:
+
+"DCSPRITE10\0"
+i(8)
+i(36)[8]
+i(36)[8]
+i(3746)
+...
+
+s:36 ( länge der zeile )
+s:1,0,3,54458,47353,24589
+s:1,0,6,62526,54458,47353,24589,24589,24589
+s:1,1,7,62526,62845,47353,24589[4]
+s:1,1,9,55743,62526,62845,47353,24589[5]
+
+10111010 11010100 , 11111001 10111000 , 00001101 0110000
+(208,148,208) , (184,28,200) , (96,0,104)
+
+00111110 11110100 , 10111010 11010100
+(240,132,240) , (208,148,208)
+
+IMPORTANT! erste zahl ist 1, zweite zahl ist start pixel in der
+aktuellen zeile, dritte zahl die anzahl pixel in der zeile. alle
+nicht definierten pixel sind unsichtbar.
+
+IMPORTANT! pixel sind kodiert im 565 format (RGB).
+#define DRPG_RED(p)     ( ( ( p ) >> 11 ) & 0x1f )
+#define DRPG_GREEN(p)   ( ( ( p ) >> 5 ) & 0x3f )
+#define DRPG_BLUE(p)    ( ( p ) & 0x1f )
+#define DRPG_COLOR(r,g,b)    ( unsigned short )( ( ( ( r ) & 0x1f ) << 11 ) \
+   + ( ( ( g ) & 0x3f ) << 5 ) + ( ( b ) & 0x1f ) )

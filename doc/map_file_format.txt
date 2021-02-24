@@ -1,0 +1,62 @@
+
+struct sMapHeader{
+   char signature[ 7 ]; // "MAP1.08"
+   char mapName[ 21 ]; // name of map + .map
+   int countXTiles; // count of tiles in x direction
+   int countYTiles; // count of tiles in y direction
+   int tileWidth; // width of tiles
+   int tileHeight; // height of tiles
+   int unknown; // 0
+   sMapTile tiles[ countXTiles * countYTiles ];
+   int countTileFiles; // count of tile files
+   sTileFile tileFiles[ countTileFiles ];
+   int countObjectFiles; // count of object files
+   sObjectFile objectFiles[ countObjectFiles ];
+};
+
+struct sMapTile{
+   short unknown; // 0 or positive
+   short unknown; // 0 or positive
+   int objectIndex;
+      // index into table of object files. -1 is used to
+      // indicate no object is there.
+      //
+      // two files completly break this rule though. they
+      // carry the value 9999 in this field accompained
+      // by a 0 in the next field. i have no idea what this
+      // could mean but the value 9999 must have a special
+      // meaning as no file contains 10000 objects. most
+      // probably this is a special object that is server
+      // side or otherwise not part of common rules.
+   int unknownIndex;
+      // this seems to be another index. i found so far the
+      // values -1 which indicates empty and some other
+      // positive values. what exactly
+      // this index references i don't know. it has though
+      // no relevance to the object as positive values appear
+      // right next to -1 object values at times.
+   short tileFile;
+      // index into table of tile files. this number can be
+      // -1 which indicates most probably an ununsed slot
+      // in the map.
+   short unknown; // 0 or some garbage
+   int tileIndex;
+      // index of tile inside the tile file
+      //
+      // one file plays outlier in that this value seems to
+      // be a short with a garbage short following. the
+      // majority of files uses an int though.
+   short flags;
+      // 0x1 => blocking player from moving there
+      // 0x2 => ?
+      // 0x100 => ?
+   short unknown2; // 0 or garbage
+}; // sizeof( sMapTile ) = 24
+
+struct sTileFile{
+   char filename[ 20 ];
+};
+
+struct sObjectFile{
+   char filename[ 20 ];
+};
