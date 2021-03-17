@@ -273,7 +273,7 @@ void decPath::pParseRelativePath( const char *filename, int separator ){
 	// parse filename
 	while( offset < len ){
 		// find path separator
-		deli = strchr( filename + offset, separator );
+		deli = strchr( ( char* )( filename + offset ), separator );
 		deliIndex = deli ? deli - filename : len;
 		// if delimiter is the first skip it
 		if( deliIndex == 0 ){

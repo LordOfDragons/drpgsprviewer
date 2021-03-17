@@ -1,0 +1,3 @@
+[submodule "fox-precompiled"]
+	path = fox-precompiled
+	url = https://github.com/LordOfDragons/fox-precompiled.git

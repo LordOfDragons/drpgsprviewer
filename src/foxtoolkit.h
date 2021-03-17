@@ -24,16 +24,9 @@
 #define _FOXTOOLKIT_H_
 
 // includes
-#if defined( HAS_FOX_CONFIG )
-#	include <fx.h>
-#	include <fx3d.h>
-
-#elif defined( HAVE_FOX_1_2_FX_H )
-#	include <fox-1.2/fx.h>
-#	include <fox-1.2/fx3d.h>
-#elif defined(HAVE_FOX_1_3_FX_H)
-#	include <fox-1.3/fx.h>
-#	include <fox-1.3/fx3d.h>
+#if defined HAVE_FOX_1_7_FX_H
+#	include <fox-1.7/fx.h>
+#	include <fox-1.7/fx3d.h>
 
 #else
 #	error "No FOX toolkit specified!"

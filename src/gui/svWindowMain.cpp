@@ -85,7 +85,7 @@ void svWindowMain::create(){
 ////////////////////////////
 
 svWindowMain::svWindowMain( FXApp* app, deCmdLineArgs *args ) :
-FXMainWindow( app, "Digimon RPG Viewer", NULL, NULL, DECOR_ALL, 0, 0, 500, 500 ){
+FXMainWindow( app, "Digimon RPG Viewer", NULL, NULL, DECOR_ALL, 0, 0, 1000, 800 ){
 	if( ! args ) THROW( dueInvalidParam );
 	// prepare
 	pViewSprite = NULL;
